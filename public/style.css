@@ -27,3 +27,17 @@ body {
 a {
   text-decoration: none;
 }
+
+.fiveday {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.5em;
+}
+
+.fiveday table {
+  text-align: center;
+}
+.fiveday table td, th {
+  min-width: 100px;
+}

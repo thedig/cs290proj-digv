@@ -1,0 +1,29 @@
+.nav-bar {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid gray;
+  height: 50px;
+  font-size: 1.5em;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-bar .nav-el {
+  border-right: 1px solid gray;
+  width: 25%;
+  text-align: center;
+}
+
+body {
+  background-color: lightblue;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+.container {
+  margin: 1em;
+}
+
+a {
+  text-decoration: none;
+}

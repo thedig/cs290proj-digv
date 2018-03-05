@@ -1,5 +1,3 @@
-var weatherStatus = {};
-
 (function(global, doc) {
   var localPath = window.location.href
                     .replace('http://', '')
@@ -16,7 +14,7 @@ var weatherStatus = {};
       load5dayWeather();
       break;
     case '/tenday':
-
+      load10dayWeather();
       break;
   }
 
@@ -32,6 +30,50 @@ var weatherStatus = {};
 
 })(window, document);
 
+
+function load10dayWeather() {
+  var uri =
+    'http://api.openweathermap.org/data/2.5/forecast/daily?q=94608&appid=fa7d80c48643dfadde2cced1b1be6ca1&cnt=10';
+  var req = new XMLHttpRequest();
+  req.open('GET', uri, true);
+  req.addEventListener('load', handleGetResponse.bind(req));
+  req.send(null);
+
+  function handleGetResponse() {
+
+    var response = JSON.parse(this.responseText);
+    var statuscode = +parseInt(JSON.parse(this.status));
+
+    if (statuscode >= 200 && statuscode < 400) {
+      var days = response.list.map(function(el) {
+        el.date = (new Date(+el.dt * 1000)).toDateString().slice(4, 10);
+        return el;
+      });
+
+      updateTendayList(days);
+
+    } else {
+      console.log("Error in network request: " + this.statusText);
+    }
+  }
+}
+
+function updateTendayList(weatherData) {
+  weatherData.forEach(function(data, idx) {
+    var dateEl = document.getElementsByClassName('tenday-day')[idx];
+    dateEl.innerHTML = data.date;
+
+    var forecastEl = document.getElementsByClassName('tenday-forecast')[idx];
+
+    var forecastString = 'Temp: ' + KelToFahr(data.temp.day) + '˚';
+    forecastString += ', High: ' + KelToFahr(data.temp.max) + '˚';
+    forecastString += ', Low: ' + KelToFahr(data.temp.min) + '˚';
+    forecastString += ', ' + sunnyDay(data.clouds);
+
+    forecastEl.innerHTML = forecastString;
+
+  });
+}
 
 function load5dayWeather() {
   var uri =
@@ -73,7 +115,6 @@ function load5dayWeather() {
   }
 }
 
-
 function updateFivedayTable(weatherData) {
   weatherData.forEach(function(data, idx) {
     if (idx > 1) {
@@ -83,15 +124,15 @@ function updateFivedayTable(weatherData) {
 
     var tempRow = document.getElementsByClassName('temp-row')[0];
     var tempCell = tempRow.children[idx+1];
-    tempCell.innerHTML = data.temp;
+    tempCell.innerHTML = data.temp+ '˚';
 
     var highRow = document.getElementsByClassName('high-row')[0];
     var highCell = highRow.children[idx+1];
-    highCell.innerHTML = data.high;
+    highCell.innerHTML = data.high + '˚';
 
     var lowRow = document.getElementsByClassName('low-row')[0];
     var lowCell = lowRow.children[idx+1];
-    lowCell.innerHTML = data.low;
+    lowCell.innerHTML = data.low + '˚';
 
     var humidRow = document.getElementsByClassName('humid-row')[0];
     var humidCell = humidRow.children[idx+1];
@@ -102,19 +143,19 @@ function updateFivedayTable(weatherData) {
 
 function processDayData(accum, data) {
   var high = accum.high;
-  var dataHigh = Math.round((data.main.temp_max - 273) * 9 / 5 + 32);
+  var dataHigh = KelToFahr(data.main.temp_max);
   if (!high || high < dataHigh) {
     accum.high = dataHigh;
   }
 
   var low = accum.low;
-  var dataLow = Math.round((data.main.temp_min - 273) * 9 / 5 + 32);
+  var dataLow = KelToFahr(data.main.temp_min);
   if (!low || low > dataLow) {
     accum.low = dataLow;
   }
 
   if (data.dt_txt.slice(11) === '12:00:00') {
-    accum.temp = Math.round((data.main.temp - 273) * 9 / 5 + 32);
+    accum.temp = KelToFahr(data.main.temp);
     accum.humidity = data.main.humidity;
   }
 
@@ -124,7 +165,7 @@ function processDayData(accum, data) {
 
 function loadTodayWeather() {
   var uri =
-    'http://api.openweathermap.org/data/2.5/weather?q=94608&appid=fa7d80c48643dfadde2cced1b1be6ca1';
+    'http://api.openweathermap.org/data/2.5/forecast/daily?q=94608&appid=fa7d80c48643dfadde2cced1b1be6ca1&cnt=1';
   var req = new XMLHttpRequest();
   req.open('GET', uri, true);
   req.addEventListener('load', handleGetResponse.bind(req));
@@ -136,19 +177,73 @@ function loadTodayWeather() {
     var statuscode = +parseInt(JSON.parse(this.status));
 
     if (statuscode >= 200 && statuscode < 400) {
-      var main = response.main;
-
-      weatherStatus.ktemp = main.temp;
-      weatherStatus.humidity = main.humidity;
-      weatherStatus.ktempmin = main.temp_min;
-      weatherStatus.ktempmax = main.temp_max;
-      weatherStatus.pressure = main.pressure;
-
-      weatherStatus.forecast =
-        'For ' + response.name + ', temp: ' + main.temp + ' kelvin, humidity: ' + main.humidity + '&, pressure: ' + main.pressure;
-
+      updateWeatherDashboard(response.list[0]);
     } else {
       console.log("Error in network request: " + this.statusText);
     }
   }
+}
+
+function updateWeatherDashboard(weatherData) {
+  console.log(weatherData);
+
+  var clouds = weatherData.clouds;
+  var cloudDiv = document.getElementsByClassName('sky-condition')[0]
+
+  cloudDiv.innerHTML = sunnyDay(clouds);
+
+
+  var cloudBubble = cloudDiv.parentNode;
+  if (clouds > 75) {
+    cloudBubble.style = 'background-color: gray';
+  } else if (clouds > 25) {
+    cloudBubble.style = 'background-color: lightgray';
+  } else {
+    cloudBubble.style = 'background-color: white';
+  }
+
+  document.getElementsByClassName('condition-icon')[0].innerHTML =
+    '<img class="icon" src="' + conditionIcon(weatherData.weather[0].icon) + '">';
+
+  var temp = KelToFahr(weatherData.temp.day);
+  var tempDiv = document.getElementsByClassName('temp')[0];
+
+  tempDiv.innerHTML = temp + '˚';
+
+  var tempBubble = tempDiv.parentNode;
+  if ( temp > 100) {
+    tempBubble.style = 'background-color: red';
+  } else if (temp > 90) {
+    tempBubble.style = 'background-color: orange';
+  } else if (temp > 70) {
+    tempBubble.style = 'background-color: yellow';
+  } else {
+    tempBubble.style = 'background-color: #0055ff';
+  }
+
+  document.getElementsByClassName('humidity')[0].innerHTML =
+    weatherData.humidity + ' %';
+
+}
+
+function KelToFahr(temp) {
+  return Math.round((temp - 273) * 9 / 5 + 32)
+}
+
+function sunnyDay(clouds) {
+  if (clouds > 90) {
+    return 'Overcast';
+  } else if (clouds > 75) {
+    return 'Mostly Cloudy';
+  } else if (clouds > 50) {
+    return 'Partly Clear';
+  } else if (clouds > 25) {
+    return 'Mostly Clear';
+  } else {
+    return 'Clear';
+  }
+}
+
+function conditionIcon(icon) {
+  return 'http://openweathermap.org/img/w/' + icon + '.png';
 }

@@ -28,16 +28,80 @@ a {
   text-decoration: none;
 }
 
-.fiveday {
+.fiveday, .tenday {
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 1.5em;
+  font-size: 1.1em;
+  padding-top: 2em;
+}
+
+.fiveday {
+  font-size: 1.25em;
 }
 
 .fiveday table {
   text-align: center;
+  font-size: 1em;
 }
 .fiveday table td, th {
   min-width: 100px;
+}
+
+.tenday li {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+}
+
+.tenday li div {
+  padding: 1em;
+}
+
+.condition-icon img {
+  width: 100px;
+  height: 100px;
+}
+
+.dashboard {
+  text-align: center;
+}
+
+.dashboard .weather-stats {
+  display: flex;
+  flex-direction: row;
+  font-size: 4em;
+  align-items: center;
+  justify-content: center;
+  height: 500px;
+}
+
+.dashboard .weather-stats .bubble {
+  margin: 0.5em;
+  width: 33%;
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  height: 27vw;
+  width: 33vw;
+  align-items: center;
+  border: 1px solid black;
+  border-radius: 50%;
+}
+
+.bubble div {
+  text-align: center;
+  width: 100%;
+}
+
+
+.bubble .sky-condition {
+  width: 60%;
+}
+.bubble .condition-icon {
+  width: 40%;
+}
+
+.sky-condition {
+  text-align: right;
 }

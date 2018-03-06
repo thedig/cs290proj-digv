@@ -9,6 +9,9 @@ console.log('testing 123 - script.js');
 
   doc.addEventListener("DOMContentLoaded", function(event) {
 
+    console.log('on DOMContentLoaded');
+    debugger;
+
     switch(localPath) {
       case '/':
         loadTodayWeather(true);
@@ -38,14 +41,18 @@ function initSlider() {
 }
 
 function loadMultiDayWeather(numDays=16, sixteenDay=true) {
+  console.log('loadMultiDayWeather');
   var uri =
     'http://api.openweathermap.org/data/2.5/forecast/daily?q=94608&appid=fa7d80c48643dfadde2cced1b1be6ca1&cnt=' + numDays;
   var req = new XMLHttpRequest();
+  console.log('new req', req);
   req.open('GET', uri, true);
   req.addEventListener('load', handleGetResponse.bind(req));
   req.send(null);
 
-  function handleGetResponse() {
+  function handleGetResponse(res) {
+
+    console.log('handle get response', res);
 
     var response = JSON.parse(this.responseText);
     var statuscode = +parseInt(JSON.parse(this.status));
@@ -82,6 +89,7 @@ function updateSlider(weatherData) {
 }
 
 function updateSixteendayList(weatherData) {
+  console.log('updateSixteendayList');
   weatherData.forEach(function(data, idx) {
     var dateEl = document.getElementsByClassName('sixteenday-day')[idx];
     dateEl.innerHTML = data.date;

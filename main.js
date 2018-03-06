@@ -19,7 +19,9 @@ app.use(express.static('public'))
 
 app.engine('hbs', handlebars.engine);
 app.set('view engine', 'hbs');
-app.set('port', 3000);
+// app.set('port', 3000);
+var port = process.env.PORT || 3000;
+app.listen(port);
 
 app.get('/',function(req,res){
   var qps = mapObjectToKVPairs(req.query);
@@ -40,9 +42,6 @@ app.get('/activities',function(req,res){
   var context = {};
   res.render('activities');
 });
-
-
-
 
 app.use(function(req,res){
   res.type('text/plain');

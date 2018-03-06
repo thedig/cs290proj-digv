@@ -265,14 +265,14 @@ function updateWeatherDashboard(weatherData) {
 
   cloudDiv.innerHTML = sunnyDay(clouds);
 
-
   var cloudBubble = cloudDiv.parentNode;
+
   if (clouds > 75) {
-    cloudBubble.style = 'background-color: gray';
+    cloudBubble.setAttribute('style', 'background-color: gray');
   } else if (clouds > 25) {
-    cloudBubble.style = 'background-color: lightgray';
+    cloudBubble.setAttribute('style', 'background-color: lightgray');
   } else {
-    cloudBubble.style = 'background-color: white';
+    cloudBubble.setAttribute('style', 'background-color: white');
   }
 
   document.getElementsByClassName('condition-icon')[0].innerHTML =
@@ -285,13 +285,13 @@ function updateWeatherDashboard(weatherData) {
 
   var tempBubble = tempDiv.parentNode;
   if ( temp > 100) {
-    tempBubble.style = 'background-color: red';
+    tempBubble.setAttribute('style', 'background-color: red');
   } else if (temp > 90) {
-    tempBubble.style = 'background-color: orange';
+    tempBubble.setAttribute('style', 'background-color: orange');
   } else if (temp > 70) {
-    tempBubble.style = 'background-color: yellow';
+    tempBubble.setAttribute('style', 'background-color: yellow');
   } else {
-    tempBubble.style = 'background-color: #0055ff';
+    tempBubble.setAttribute('style', 'background-color: #0055ff');
   }
 
   document.getElementsByClassName('humidity')[0].innerHTML =

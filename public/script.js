@@ -250,7 +250,7 @@ function updateActivities(weatherData) {
   var downLink = document.getElementsByClassName('download-link')[0];
   mainDiv.innerHTML = '<img class="activity-img" src="' + imgsrc + '">';
   descDiv.innerHTML = '<span>' + description + '</span>';
-  downLink.innerHTML = '<a href="' + download + '" target="_blank">' + downloadDesc + '</a>';
+  downLink.innerHTML = '<a href="' + download + '" target="_blank"><button>' + downloadDesc + '</button></a>';
 }
 
 function updateWeatherDashboard(weatherData) {

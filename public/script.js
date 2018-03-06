@@ -1,3 +1,5 @@
+console.log('testing 123 - script.js');
+
 (function(global, doc) {
   var localPath = window.location.href
                     .replace('http://', '')

@@ -1,7 +1,7 @@
 //****************************
 //*** Dig Vargas
 //*** Web Project
-//*** Mar 4, 2018
+//*** Mar 5, 2018 (using 1 bonus day)
 //****************************
 
 var express = require('express');
@@ -10,10 +10,11 @@ var app = express();
 var handlebars = require('express-handlebars').create({defaultLayout:'main', extname: '.hbs'});
 
 var bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
-// app.use(express.static(__dirname + '/public'));
+app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
+app.use('/slick', express.static(__dirname + '/node_modules/slick-carousel/slick/'));
 app.use(express.static('public'))
 
 app.engine('hbs', handlebars.engine);
@@ -27,20 +28,17 @@ app.get('/',function(req,res){
 
 app.get('/fiveday',function(req,res){
   var context = {};
-  // context.sentData = req.query.myData;
-  res.render('fiveday', context);
+  res.render('fiveday');
 });
 
-app.get('/tenday',function(req,res){
+app.get('/16day',function(req,res){
   var context = {};
-  // context.sentData = req.query.myData;
-  res.render('tenday', context);
+  res.render('16day');
 });
 
 app.get('/activities',function(req,res){
   var context = {};
-  // context.sentData = req.query.myData;
-  res.render('activities', context);
+  res.render('activities');
 });
 
 

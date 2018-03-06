@@ -28,7 +28,7 @@ a {
   text-decoration: none;
 }
 
-.fiveday, .tenday {
+.fiveday, .sixteenday {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -48,13 +48,13 @@ a {
   min-width: 100px;
 }
 
-.tenday li {
+.sixteenday li {
   list-style: none;
   display: flex;
   flex-direction: row;
 }
 
-.tenday li div {
+.sixteenday li div {
   padding: 1em;
 }
 
@@ -73,7 +73,8 @@ a {
   font-size: 4em;
   align-items: center;
   justify-content: center;
-  height: 500px;
+  height: 450px;
+  max-height: 60%;
 }
 
 .dashboard .weather-stats .bubble {
@@ -87,13 +88,13 @@ a {
   align-items: center;
   border: 1px solid black;
   border-radius: 50%;
+  max-height: 80%;
 }
 
 .bubble div {
   text-align: center;
   width: 100%;
 }
-
 
 .bubble .sky-condition {
   width: 60%;
@@ -104,4 +105,66 @@ a {
 
 .sky-condition {
   text-align: right;
+}
+
+.activities {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.activities .main-div img {
+  max-height: 450px;
+}
+
+.slick-prev.slick-arrow {
+  top: 0;
+  position: absolute;
+  left: 40px;
+  z-index: 100;
+}
+
+.slick-next.slick-arrow {
+  top: 0;
+  position: absolute;
+  right: 40px;
+}
+
+.slide {
+  max-width: 400px;
+  padding-bottom: 1em;
+  background: #00dd99;
+}
+
+.slider-title h3 {
+  margin: 0;
+  margin-bottom: 0.3em;
+}
+
+.slide-title {
+  margin: 0.3em;
+}
+
+.dashboard-title {
+  margin: 0.5em;
+}
+
+.multi-day-list {
+  overflow-y: scroll;
+  height: 70%;
+}
+
+.multi-day-list::-webkit-scrollbar {
+  background-color: lightgray;
+  outline: 1px solid slategrey;
+}
+
+.multi-day-list::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
+
+.multi-day-list::-webkit-scrollbar-track {
+  background-color: lightgray;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 }

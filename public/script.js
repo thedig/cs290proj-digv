@@ -1,3 +1,4 @@
+
 (function(global, doc) {
   var localPath = window.location.href
                     .replace('http://', '')
@@ -17,7 +18,7 @@
         load5dayWeather();
         break;
       case '/16day':
-        loadMultiDayWeather();
+        loadMultiDayWeather(16, true);
         break;
     }
 
@@ -33,8 +34,7 @@ function initSlider() {
   });
 }
 
-function loadMultiDayWeather(numDays=16, sixteenDay=true) {
-  console.log('loadMultiDayWeather');
+function loadMultiDayWeather(numDays, sixteenDay) {
   var uri =
     'https://api.openweathermap.org/data/2.5/forecast/daily?q=94608&appid=fa7d80c48643dfadde2cced1b1be6ca1&cnt=' + numDays;
 

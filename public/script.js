@@ -1,5 +1,7 @@
 console.log('testing 123 - script.js');
 
+var https = window.location.href.includes('https');
+
 (function(global, doc) {
   var localPath = window.location.href
                     .replace('http://', '')
@@ -45,6 +47,10 @@ function loadMultiDayWeather(numDays=16, sixteenDay=true) {
   console.log('loadMultiDayWeather');
   var uri =
     'http://api.openweathermap.org/data/2.5/forecast/daily?q=94608&appid=fa7d80c48643dfadde2cced1b1be6ca1&cnt=' + numDays;
+
+  if (https) {
+    uri = "https://crossorigin.me/" + uri;
+  }
   var req = new XMLHttpRequest();
   console.log('new req', req);
   req.open('GET', uri, true);
@@ -110,6 +116,10 @@ function updateSixteendayList(weatherData) {
 function load5dayWeather() {
   var uri =
     'http://api.openweathermap.org/data/2.5/forecast?q=94608&appid=fa7d80c48643dfadde2cced1b1be6ca1';
+
+  if (https) {
+    uri = "https://crossorigin.me/" + uri;
+  }
   var req = new XMLHttpRequest();
   req.open('GET', uri, true);
   req.addEventListener('load', handleGetResponse.bind(req));
@@ -196,6 +206,9 @@ function processDayData(accum, data) {
 function loadTodayWeather(populateDashboard) {
   var uri =
     'http://api.openweathermap.org/data/2.5/forecast/daily?q=94608&appid=fa7d80c48643dfadde2cced1b1be6ca1&cnt=1';
+  if (https) {
+    uri = "https://crossorigin.me/" + uri;
+  }
   var req = new XMLHttpRequest();
   req.open('GET', uri, true);
   req.addEventListener('load', handleGetResponse.bind(req));
